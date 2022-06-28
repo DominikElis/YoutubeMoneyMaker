@@ -52,25 +52,3 @@ class youtube_money_maker:
             return False
         return True, file_name
 
-if __name__ == '__main__':
-    ymm = youtube_money_maker()
-
-    layout = [[sg.Text("Image URL"), sg.In(do_not_clear=False)], [sg.Text("Audio URL"), sg.In(do_not_clear=False)],
-              [sg.Button("Generate Music Video")]]
-    window = sg.Window(title="Youtube Money Maker", layout=layout, margins=(250, 250))
-
-    while True:  # Event Loop
-        event, values = window.Read()
-        if event in (None, 'Exit'):
-            break
-        if event == 'Generate Music Video':
-            print(values[0])
-            if values[0] != "" and values[0].endswith(".jpg") and values[1] != "" and values[1].endswith(".mp3"):
-                ymm.downloadImage(url=values[0])
-                ymm.downloadMusic(url=values[1])
-                ymm.add_static_image_to_audio('picture.jpg', 'music.mp3')
-                sg.Popup('Finish', keep_on_top=True)
-                values[0] = ""
-                values[1] = ""
-
-    window.Close()

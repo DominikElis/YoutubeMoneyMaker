@@ -5,7 +5,7 @@ from threading import Thread
 from telegram import Update, InlineQueryResultArticle, InputTextMessageContent
 from telegram.ext import ApplicationBuilder, ContextTypes, CommandHandler, filters, MessageHandler, InlineQueryHandler
 
-from youtube_money_maker.Main import youtube_money_maker
+from youtube_money_maker.youtube_money_maker import youtube_money_maker
 
 # queue = []
 # ymm = youtube_money_maker()
