@@ -2,10 +2,11 @@ import logging
 import time
 from threading import Thread
 
+import yaml
 from telegram import Update, InlineQueryResultArticle, InputTextMessageContent
 from telegram.ext import ApplicationBuilder, ContextTypes, CommandHandler, filters, MessageHandler, InlineQueryHandler
 
-from youtube_money_maker.youtube_money_maker import youtube_money_maker
+from youtube_money_maker import youtube_money_maker
 
 # queue = []
 # ymm = youtube_money_maker()
@@ -65,14 +66,14 @@ async def new_music_video(update: Update, context: ContextTypes.DEFAULT_TYPE):
         music_video_generated, file_name = ymm.add_static_image_to_audio()
         if music_video_generated:
             await context.bot.send_message(chat_id=update.effective_chat.id, text="Musicvideo is generated.")
-            await context.bot.send_video(chat_id=update.effective_chat.id,filename=file_name,video=open(file_name, 'rb'))
+            await context.bot.send_video(chat_id=update.effective_chat.id, filename=file_name,
+                                         video=open(file_name, 'rb'))
         else:
             await context.bot.send_message(chat_id=update.effective_chat.id, text="An error occured while generating.")
     else:
         await context.bot.send_message(chat_id=update.effective_chat.id, text="URLs are probably not correct.")
     # queue.append((update.effective_chat.id,image_url,audio_url))
     # generate_polling()
-
 
 
 # def generate_polling():
@@ -87,7 +88,9 @@ async def new_music_video(update: Update, context: ContextTypes.DEFAULT_TYPE):
 
 
 if __name__ == '__main__':
-    application = ApplicationBuilder().token("5437920544:AAHLdpsT0-rqncINFnxwAwRWgtytQCgoGPo").build()
+    with open('config.yml') as stream:
+        config = yaml.safe_load(stream)
+    application = ApplicationBuilder().token(config['token']).build()
     job_queue = application.job_queue
 
     # create Handlers
